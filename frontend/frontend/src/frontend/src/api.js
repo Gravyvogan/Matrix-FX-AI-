@@ -20,25 +20,18 @@ const MatrixAPI = {
     return headers;
   },
 
-  // Auth Operations Handlers
+    // Auth Operations Handlers (BYPASSED FOR MOBILE TEST)
   auth: {
     register: async (username, email, password) => {
-      const response = await fetch(`${API_BASE_URL}/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
-      });
-      return response.json();
+      console.log("Simulating registration success...");
+      return { token: "fake-jwt-token-12345" };
     },
     login: async (email, password) => {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      return response.json();
+      console.log("Simulating login success...");
+      return { token: "fake-jwt-token-12345" };
     }
   },
+  
 
   // Active Position Tracking Ledger Requests
   trades: {
