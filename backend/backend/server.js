@@ -5,6 +5,11 @@ const http = require('http');
 const { Server } = require('socket.io');
 require('dotenv').config();
 
+// Route Import Links
+const authRoutes = require('./src/routes/auth');
+const tradeRoutes = require('./src/routes/trades');
+const marketRoutes = require('./src/routes/market');
+
 const app = express();
 const server = http.createServer(app);
 
@@ -19,6 +24,11 @@ const io = new Server(server, {
 // Middleware for parsing JSON data and handling security headers
 app.use(cors());
 app.use(express.json());
+
+// Main Route Allocations
+app.use('/api/auth', authRoutes);
+app.use('/api/trades', tradeRoutes);
+app.use('/api/market', marketRoutes);
 
 // Base connection status path
 app.get('/', (req, res) => {
@@ -36,7 +46,6 @@ io.on('connection', (socket) => {
 
   // Handle request for generating immediate technical indicators
   socket.on('request_signal', (tradeData) => {
-    // Basic structural feedback for signal generation requests
     socket.emit('signal_generated', {
       pair: tradeData.pair || 'EURUSD',
       signal: 'HOLD',
@@ -68,4 +77,3 @@ mongoose.connect(MONGO_URI || 'mongodb://localhost:27017/matrixfx')
   .catch((err) => {
     console.error("❌ Database connection error: ", err.message);
   });
-    
